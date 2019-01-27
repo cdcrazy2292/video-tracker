@@ -11,7 +11,6 @@ const reuseDBConnection = db => {
 };
 
 videoRouter.get("/videos", (req, res, next) => {
-  console.log(req.query);
   if (req.query.startDate && req.query.endDate) {
     (async () => {
       try {
@@ -21,8 +20,6 @@ videoRouter.get("/videos", (req, res, next) => {
         );
         return res.status(200).json(commonResponse);
       } catch (e) {
-        console.log(e);
-
         return res.status(400).json({
           error: e.message
         });
