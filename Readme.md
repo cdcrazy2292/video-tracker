@@ -21,4 +21,4 @@ Open up postman and start playing with the endpoints.
 The API documentation is below: 
 
 
-## [See API Documentation](https://github.com/user/repo/blob/branch/other_file.md) 
+## [See API Documentation](https://github.com/cdcrazy2292/video-tracker/blob/master/api.md) 
