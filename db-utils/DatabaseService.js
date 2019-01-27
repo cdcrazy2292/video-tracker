@@ -36,6 +36,31 @@ class DatabaseService {
     });
   }
 
+  getVideo(id) {
+    const query = `
+    select * from videos.video_tracker where id = ${id};
+    `;
+    return new Promise((resolve, reject) => {
+      this.connection.query(query, (err, results) => {
+        if (err) return reject(new Error(err));
+        resolve(results);
+      });
+    });
+  }
+
+  getVideosByDate(startDate, endDate) {
+    const query = `
+    select * from videos.video_tracker 
+    where published >= "${startDate}" and published <= "${endDate}";
+    `;
+    return new Promise((resolve, reject) => {
+      this.connection.query(query, (err, results) => {
+        if (err) return reject(new Error(err));
+        resolve(results);
+      });
+    });
+  }
+
   addVideo(video_name, brand, published) {
     const query = `
     insert into videos.video_tracker (video_name, brand, published)

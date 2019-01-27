@@ -11,9 +11,44 @@ const reuseDBConnection = db => {
 };
 
 videoRouter.get("/videos", (req, res, next) => {
+  console.log(req.query);
+  if (req.query.startDate && req.query.endDate) {
+    (async () => {
+      try {
+        commonResponse.data = await dbConnection.getVideosByDate(
+          req.query.startDate,
+          req.query.endDate
+        );
+        return res.status(200).json(commonResponse);
+      } catch (e) {
+        console.log(e);
+
+        return res.status(400).json({
+          error: e.message
+        });
+      }
+    })();
+  } else {
+    (async () => {
+      commonResponse.data = await dbConnection.getAllVideos();
+      res.status(200).json(commonResponse);
+    })();
+  }
+});
+
+videoRouter.get("/video/:id", (req, res, next) => {
+  if (!req.params.id)
+    return res.status(400).json({
+      error: "Missing ID."
+    });
+  if (isNaN(parseInt(req.params.id))) {
+    return res.status(400).json({
+      error: "ID is invalid."
+    });
+  }
   (async () => {
-    commonResponse.data = await dbConnection.getAllVideos();
-    res.json(commonResponse).sendStatus(200);
+    commonResponse.data = await dbConnection.getVideo(req.params.id);
+    res.status(200).json(commonResponse);
   })();
 });
 
