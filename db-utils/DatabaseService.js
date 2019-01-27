@@ -25,6 +25,48 @@ class DatabaseService {
       );
     });
   }
+
+  getAllVideos() {
+    const query = `select * from video_tracker;`;
+    return new Promise((resolve, reject) => {
+      this.connection.query(query, (err, results) => {
+        if (err) return reject(new Error(err));
+        resolve(results);
+      });
+    });
+  }
+
+  addVideo(video_name, brand, published) {
+    const query = `
+    insert into videos.video_tracker (video_name, brand, published)
+    values ("${video_name}", "${brand}", "${published}");
+    `;
+    return new Promise((resolve, reject) => {
+      this.connection.query(query, (err, results) => {
+        if (err) return reject(new Error(err));
+        resolve(results);
+      });
+    });
+  }
+
+  updateVideoCount(videoId) {
+    const query = `
+    update video_tracker 
+    set video_count = video_count + 1
+    where id = ${videoId}
+    `;
+    return new Promise((resolve, reject) => {
+      this.connection.query(query, (err, results) => {
+        if (err) return reject(new Error(err));
+        resolve(results);
+      });
+    });
+  }
+
+  closeConnection() {
+    console.log("Closing db connection");
+    this.connection.end();
+  }
 }
 
 const openConnection = config => {
