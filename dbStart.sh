@@ -3,14 +3,13 @@
 # Run a MySQL container, with a database named 'videos' and credentials
 
 echo "Starting MySql DB..."
-docker rm db
 docker run --name db -d \
     -e MYSQL_ROOT_PASSWORD=111 \
-    -e MYSQL_DATABASE=videos -e MYSQL_USER=groupnine -e MYSQL_PASSWORD=111 \
+    -e MYSQL_DATABASE=videos -e MYSQL_USER=groupnine -e MYSQL_PASSWORD=123 \
     -p 3306:3306 \
     mysql:latest
 
 
-echo "Starting MySql DB..."
-docker exec db mysqladmin --silent -wait=25 -ugroupnine -p111 || exit 1
+echo "Waiting for DB to start up..."
+docker exec db mysqladmin --silent -wait=30 -ugroupnine -p111 ping || exit 1
 

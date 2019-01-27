@@ -17,21 +17,20 @@ process.on("unhandledRejection", err => {
   console.error("Unhandled Rejection", err);
 });
 
-Database.openConnection(config.mysqlConfig).then(db => {
-  console.log("Connected to MySql Database successfully");
-  const dbInfo = {
-    host: db.connection.config.host,
-    port: db.connection.config.port,
-    database_name: db.connection.config.database,
-    db_user: db.connection.config.user
-  };
-  console.table(dbInfo);
-});
-
-server
-  .start({
-    port: config.port,
-    db_config: config.mysqlConfig
+Database.openConnection(config.mysqlConfig)
+  .then(db => {
+    console.log("Connected to MySql Database successfully");
+    const dbInfo = {
+      host: db.connection.config.host,
+      port: db.connection.config.port,
+      database_name: db.connection.config.database,
+      db_user: db.connection.config.user
+    };
+    console.table(dbInfo);
+    return server.start({
+      port: config.port,
+      db_connection: db
+    });
   })
   .then(app => {
     console.log(`App started successfully on port ${config.port}`);

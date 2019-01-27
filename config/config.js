@@ -4,7 +4,7 @@ module.exports = {
     host: process.env.DATABASE_HOST || "127.0.0.1",
     database: "videos",
     user: "groupnine",
-    password: "111",
+    password: "123",
     port: 3306
   }
 };
